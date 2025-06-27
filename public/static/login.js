@@ -83,7 +83,6 @@ async function getLogin(refresh = false) {
                 title: '刷新令牌失败',
                 text: response_data.text,
                 showConfirmButton: true,
-                timer: 1000
             });
             return;
         }
@@ -123,7 +122,8 @@ async function getLogin(refresh = false) {
                 document.getElementById("access-token").value = response_data.text;
                 return;
             }
-            if (driver_txt === "alicloud_qr") {
+            // Ali网盘直接获取 ===========================================================
+            if (driver_txt === "alicloud_qr" || driver_txt === "alicloud_tv") {
                 let sid = response_data.sid;
                 await Swal.fire({
                     position: 'top',
@@ -164,16 +164,16 @@ async function getLogin(refresh = false) {
 
         } else await Swal.fire({
             icon: 'error',
-            title: "获取秘钥失败: " + response_data.text,
+            title: "获取秘钥失败",
+            text: response_data.text,
             showConfirmButton: true,
-            timer: 1000
         });
     } catch (error) {
         await Swal.fire({
             icon: 'error',
-            title: '获取秘钥失败: ' + error,
+            title: '获取秘钥失败',
+            text: error,
             showConfirmButton: true,
-            timer: 1000
         });
     }
 }

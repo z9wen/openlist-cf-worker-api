@@ -6,13 +6,121 @@
 
 部署地址：[OpenList Token 获取工具](https://api.oplist.org/)
 
+## 部署方法
+
+### 一键部署
+
+#### EdgeOne Functions
+[![使用 EdgeOne Pages 部署](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https://github.com/OpenListTeam/OpenList-APIPages)
+
+部署完成后，请登录EdgeOne Functions后台，修改环境变量，请参考[变量说明](#变量说明)部分
+
+
+
+#### Cloudflare Worker
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/OpenListTeam/OpenList-APIPages)
+
+部署完成后，请登录Cloudflare Worker后台，修改环境变量，请参考[变量说明](#变量说明)部分
+
+### 手动部署
+
+#### 克隆代码
+
+```shell
+git clone https://github.com/OpenListTeam/cf-worker-api.git
+```
+
+#### 修改配置
+
+创建并修改`wrangler.jsonc`
+
+```shell
+cp wrangler.jsonc.example wrangler.jsonc
+```
+
+修改变量信息：
+ - MAIN_URLS：部署回调地址的域名
+ - 其他参数?：各个网盘的应用信息
+```
+  "vars": {
+    "MAIN_URLS": "api.example.com",
+    "onedrive_uid": "*****************************",
+    "onedrive_key": "*****************************",
+    "alicloud_uid": "*****************************",
+    "alicloud_key": "*****************************",
+    "baiduyun_uid": "*****************************",
+    "baiduyun_key": "*****************************",
+    "baiduyun_ext": "*****************************",
+    "cloud115_uid": "*****************************",
+    "cloud115_key": "*****************************",
+    "googleui_uid": "*****************************",
+    "googleui_key": "*****************************",
+    "yandexui_uid": "*****************************",
+    "yandexui_key": "*****************************",
+    "dropboxs_uid": "*****************************",
+    "dropboxs_key": "*****************************",
+    "quarkpan_uid": "*****************************",
+    "quarkpan_key": "*****************************"
+  },
+```
+
+
+
+### 变量说明
+
+| 变量名称       | 必要 | 变量类型 | 变量说明                          |
+| -------------- | ---- | -------- | --------------------------------- |
+| `MAIN_URLS`    | 是   | string   | 绑定主域名，示例：api.example.com |
+| `onedrive_uid` | 否   | string   | OneDrive 客户端ID                 |
+| `onedrive_key` | 否   | string   | OneDrive 客户端密钥               |
+| `alicloud_uid` | 否   | string   | 阿里云盘开发者AppID               |
+| `alicloud_key` | 否   | string   | 阿里云盘开发者AppKey              |
+| `baiduyun_uid` | 否   | string   | 百度网盘应用密钥AppKey            |
+| `baiduyun_key` | 否   | string   | 百度网盘应用密钥SecretKey         |
+| `cloud115_uid` | 否   | string   | 115网盘应用ID                     |
+| `cloud115_key` | 否   | string   | 115网盘应用密钥                   |
+| `googleui_uid` | 否   | string   | 谷歌客户端ID                      |
+| `googleui_key` | 否   | string   | 谷歌全局API Key                   |
+| `yandexui_uid` | 否   | string   | Yandex应用ID                      |
+| `yandexui_key` | 否   | string   | Yandex应用密钥                    |
+| `dropboxs_uid` | 否   | string   | Dropboxx应用ID                    |
+| `dropboxs_key` | 否   | string   | Dropbox应用密钥                   |
+| `quarkpan_uid` | 否   | string   | 夸克云盘x应用ID                   |
+| `quarkpan_key` | 否   | string   | 夸克云盘应用密钥                  |
+
+
+
+#### 测试代码
+
+```shell
+npm install
+
+# 以Cloudflare Worker环境运行 
+npm run dev-cf 
+
+# 以Edgeone Functions环境运行 
+npm run dev-eo 
+```
+
+#### 部署项目
+
+```shell
+# 以Cloudflare Worker环境部署
+npm run deploy-cf
+
+# 以Edgeone Functions环境部署 
+npm run deploy-eo 
+```
+
 ## 接口文档
 
 ### 登录接口
 
 - #### 接口地址
 
-#### `https://api.oplist.org/<driver>/requests`
+#### 全球地址：`https://api.oplist.org/<driver>/requests`
+
+#### 国内地址：`https://api-cn.oplist.org/<driver>/requests`
 
 - #### 接口参数
 
@@ -113,70 +221,6 @@
 | Yandex   | 验证登录   | yandexui | yandexui_go | AppID      | AppKey        | /          |
 | Dropbox  | 验证登录   | dropboxs | dropboxs_go | AppID      | AppKey        | /          |
 
-
-## 部署方法
-
-### 克隆代码
-
-```shell
-git clone https://github.com/OpenListTeam/cf-worker-api.git
-```
-
-### 修改配置
-
-创建并修改`wrangler.jsonc`
-
-```shell
-cp wrangler.jsonc.example wrangler.jsonc
-```
-
-修改变量信息：
- - MAIN_URLS：部署回调地址的域名
- - 其他参数?：各个网盘的应用信息
- - 
-```
-  "vars": {
-    "MAIN_URLS": "api.example.com",
-    "onedrive_uid": "*****************************",
-    "onedrive_key": "*****************************",
-    "alicloud_uid": "*****************************",
-    "alicloud_key": "*****************************",
-    "baiduyun_uid": "*****************************",
-    "baiduyun_key": "*****************************",
-    "baiduyun_ext": "*****************************",
-    "cloud115_uid": "*****************************",
-    "cloud115_key": "*****************************",
-    "googleui_uid": "*****************************",
-    "googleui_key": "*****************************",
-    "yandexui_uid": "*****************************",
-    "yandexui_key": "*****************************",
-    "dropboxs_uid": "*****************************",
-    "dropboxs_key": "*****************************"
-  },
-```
-
-### 测试代码
-
-```txt
-npm install
-npm run dev
-```
-
-### 部署项目
-
-```txt
-npm run deploy
-```
-
-[For generating/synchronizing types based on your Worker configuration run](https://developers.cloudflare.com/workers/wrangler/commands/#types):
-
-```txt
-npm run cf-typegen
-```
-
-Pass the `CloudflareBindings` as generics when instantiation `Hono`:
-
-```ts
-// src/index.ts
-const app = new Hono<{ Bindings: CloudflareBindings }>()
-```
+## 项目赞助
+本项目的中国站点边缘函数、CDN加速及安全防护由[Tencent EdgeOne](https://edgeone.ai/zh?from=github)赞助
+<img src="https://edgeone.ai/media/34fe3a45-492d-4ea4-ae5d-ea1087ca7b4b.png" style="width: 500px" />
